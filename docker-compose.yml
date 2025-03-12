@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Frontend application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: raymond-qms-app
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    networks:
+      - raymond-network
+    # Uncomment the following lines if you add a backend API
+    # depends_on:
+    #   - api
+
+  # Uncomment the following section if you add a backend API
+  # api:
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile
+  #   container_name: raymond-qms-api
+  #   ports:
+  #     - "3001:3001"
+  #   restart: unless-stopped
+  #   environment:
+  #     - NODE_ENV=production
+  #     - PORT=3001
+  #     - DB_HOST=db
+  #     - DB_PORT=5432
+  #     - DB_USER=postgres
+  #     - DB_PASSWORD=postgres
+  #     - DB_NAME=raymondqms
+  #   networks:
+  #     - raymond-network
+  #   depends_on:
+  #     - db
+
+  # Uncomment the following section if you add a database
+  # db:
+  #   image: postgres:14-alpine
+  #   container_name: raymond-qms-db
+  #   restart: unless-stopped
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - POSTGRES_DB=raymondqms
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   networks:
+  #     - raymond-network
+
+networks:
+  raymond-network:
+    driver: bridge
+
+# Uncomment the following section if you add a database
+# volumes:
+#   postgres_data: 
